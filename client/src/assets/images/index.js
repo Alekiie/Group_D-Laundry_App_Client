@@ -1,1 +1,0 @@
-export {default as MainImage} from './case8.avif'

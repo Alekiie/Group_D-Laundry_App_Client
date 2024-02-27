@@ -24,6 +24,7 @@
 .home-text-side-body-text {
   font-family: var(--font-family);
   font-size: 20px;
+  color: #fff;
 }
 .home-text-side-button {
   background: #ff4820;

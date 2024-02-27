@@ -1,10 +1,13 @@
 import React from "react";
 import "./Home.css";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 
 import Slider from "../../components/slider/Slider";
 import About from "../../components/about/About";
 import Services from "../services/Services";
+import WhyChooseUs from "../../components/whyChooseUs/WhyChooseUs";
+import Footer from "../../components/footer/Footer";
+import ChooseUs from "../../components/chooseUs/ChooseUs";
 const Home = () => {
   return (
     <>
@@ -38,6 +41,8 @@ const Home = () => {
       </div>
       <About />
       <Services />
+      {/* <WhyChooseUs /> */}
+      <ChooseUs/>
     </>
   );
 };

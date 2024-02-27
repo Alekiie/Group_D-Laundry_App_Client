@@ -1,0 +1,22 @@
+.cards{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.heading {
+    margin-bottom: 20px;
+    position: relative;
+    text-align: center;
+    color: #fff;
+    font-size: 30px;
+    width: fit-content;
+    border-bottom: 2px solid #ffff;
+    text-underline-position: below;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    padding-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+ 

@@ -1,34 +1,8 @@
-.about {
-  margin-right: 1rem;
-  padding-left: 6rem;
-  margin-top: 0;
-}
-.about .heading {
-  position: relative;
-  text-align: center;
-  color: #fff;
-  font-size: 30px;
-  width: fit-content;
-  border-bottom: 2px solid #ffff;
-  text-underline-position: below;
-  border-bottom-left-radius: 50%;
-  border-bottom-right-radius: 50%;
-  padding-bottom: 5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-.divide_about {
-  width: 100%;
-
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-}
-
-.about_text p {
+.about_text  {
   font-family: var(--font-family);
   font-size: 20px;
   display: flex-start;
+  color: #fff;
   
 }

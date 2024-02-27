@@ -132,8 +132,8 @@ const OrderAndProcess = () => {
                 strikes and road blocks.
               </li>
               <li className="mt-3">
-                Minimum Order Amount is BDT 100 for free pick and drop service,
-                otherwise you have to pay additional BDT 20 as charge.
+                Minimum Order Amount is Kes. 150 for free pick and drop service,
+                otherwise you have to pay additional Kes. 20 as charge.
               </li>
             </div>
           </div>
@@ -144,8 +144,8 @@ const OrderAndProcess = () => {
             Details of Services
           </h2>
           <p className="text-justify story ml-5">
-            Smart Dhopa help you find laundry service near you and ensure that
-            your clothes ar led by professional and experienced Service
+            CLZ provides ultimate laundry service near you and ensure that
+            your clothes are led by professional and experienced Service
             Providers. Our quality services are quick and simple. Every
             customer’s laundry is washed with extreme care to preserve their
             clothes’ quality. After washing your clothes our Service Providers

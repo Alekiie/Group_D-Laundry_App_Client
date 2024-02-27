@@ -163,7 +163,7 @@ const DryCleaning = (props) => {
                         </ListItem>
                         <ListItem>
                           <Typography className={classes.secondaryHeading}>
-                            <span className="price">৳ {item.price}</span> /
+                            <span className="price">Kes. {item.price}</span> /
                             piece
                           </Typography>
                           <ListItemText secondary="" />
@@ -247,7 +247,7 @@ const DryCleaning = (props) => {
                         </ListItem>
                         <ListItem>
                           <Typography className={classes.secondaryHeading}>
-                            <span className="price">৳ {item.price}</span> /
+                            <span className="price">Kes. {item.price}</span> /
                             piece
                           </Typography>
                           <ListItemText secondary="" />
@@ -331,7 +331,7 @@ const DryCleaning = (props) => {
                         </ListItem>
                         <ListItem>
                           <Typography className={classes.secondaryHeading}>
-                            <span className="price">৳ {item.price}</span> /
+                            <span className="price">Kes. {item.price}</span> /
                             piece
                           </Typography>
                           <ListItemText secondary="" />

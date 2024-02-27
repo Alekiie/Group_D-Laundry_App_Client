@@ -165,7 +165,7 @@ const Cart = (props) => {
 							<ListItemText primary={item.name} />
 							<ListItemText primary="" />
 							<Typography className={classes.secondaryHeading}>
-								<span className="price">৳ {item.price * item.quantity}</span>
+								<span className="price">Kes. {item.price * item.quantity}</span>
 							</Typography>
 						</ListItem>
 					</div>
@@ -176,21 +176,21 @@ const Cart = (props) => {
 					<ListItemText primary="Sub Total" />
 					<ListItemText primary="" />
 					<Typography className={classes.secondaryHeading}>
-						<span className="price">৳ {subTotal}</span>
+						<span className="price">Kes. {subTotal}</span>
 					</Typography>
 				</ListItem>
 				<ListItem>
 					<ListItemText primary="Delivery Charge" />
 					<ListItemText primary="" />
 					<Typography className={classes.secondaryHeading}>
-						<span className="price">৳ {deliveryCharge}</span>
+						<span className="price">Kes. {deliveryCharge}</span>
 					</Typography>
 				</ListItem>
 				<ListItem>
 					<ListItemText primary="Grand Total" />
 					<ListItemText primary="" />
 					<Typography className={classes.secondaryHeading}>
-						<span className="price">৳ {grandTotal}</span>
+						<span className="price">Kes. {grandTotal}</span>
 					</Typography>
 				</ListItem>
 			</List>

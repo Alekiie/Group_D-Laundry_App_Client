@@ -33,6 +33,7 @@ import {
 // import {styled} from '@mui/system'
 import { MdArrowDownward } from "react-icons/md";
 import { Household,Man,Woman } from "../../assets/images";
+import Preloader from "../Preloader/Preloader";
 
 const useCustomStylesHook = () => {
   return {
@@ -168,7 +169,7 @@ const WashAndIron = (props) => {
                         </ListItem>
                         <ListItem>
                           <Typography className={classes.secondaryHeading}>
-                            <span className="price">৳ {item.price}</span> /
+                            <span className="price">Kes. {item.price}</span> /
                             piece
                           </Typography>
                           <ListItemText secondary="" />
@@ -252,7 +253,7 @@ const WashAndIron = (props) => {
                         </ListItem>
                         <ListItem>
                           <Typography className={classes.secondaryHeading}>
-                            <span className="price">৳ {item.price}</span> /
+                            <span className="price">Kes. {item.price}</span> /
                             piece
                           </Typography>
                           <ListItemText secondary="" />
@@ -336,7 +337,7 @@ const WashAndIron = (props) => {
                         </ListItem>
                         <ListItem>
                           <Typography className={classes.secondaryHeading}>
-                            <span className="price">৳ {item.price}</span> /
+                            <span className="price">Kes. {item.price}</span> /
                             piece
                           </Typography>
                           <ListItemText secondary="" />

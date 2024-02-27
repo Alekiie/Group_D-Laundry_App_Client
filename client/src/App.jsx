@@ -23,6 +23,13 @@ import OrderAndProcess from "./components/Services/OrderAndProcess";
 import SubscriptionBased from "./components/Services/SubscriptionBased";
 import DryCleaning from "./components/Services/DryCleaning";
 import Bag from "./components/CartAndShipment/Bag";
+import {
+  addToDatabaseCart,
+  getDatabaseCart,
+  processOrder,
+  removeFromDatabaseCart,
+} from "./utilities/databaseManager";
+
 // import DryCleaning  from "./components/Services/DryCleaning";
 
 export const DataContext = createContext();
@@ -70,22 +77,22 @@ const App = () => {
 
   const contextData = { order, setOrder, products, setProducts };
 
-  // useEffect(() => {
-  //   const savedCart = getDatabaseCart();
-  //   const productKeys = Object.keys(savedCart);
+  useEffect(() => {
+    const savedCart = getDatabaseCart();
+    const productKeys = Object.keys(savedCart);
 
-  //   if (products.length > 0) {
-  //     const previousCart = productKeys.map((existingKey) => {
-  //       const product = products.find(
-  //         (productItem) => productItem.key === existingKey
-  //       );
-  //       // console.log(existingKey, savedCart[existingKey]);
-  //       product.quantity = savedCart[existingKey];
-  //       return product;
-  //     });
-  //     setCart(previousCart);
-  //   }
-  // }, []);
+    if (products.length > 0) {
+      const previousCart = productKeys.map((existingKey) => {
+        const product = products.find(
+          (productItem) => productItem.key === existingKey
+        );
+        // console.log(existingKey, savedCart[existingKey]);
+        product.quantity = savedCart[existingKey];
+        return product;
+      });
+      setCart(previousCart);
+    }
+  }, []);
 
   const handleAddProduct = (currentProduct) => {
     const alreadyAdded = cart.find((item) => item.id === currentProduct.id);

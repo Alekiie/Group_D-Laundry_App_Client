@@ -132,7 +132,7 @@ const Cart = (props) => {
 						<ListItem>
 							<Typography
 								className={classes.dividerFullWidth}
-								color="textSecondary"
+								color="white"
 								display="block"
 								variant="caption"
 							>

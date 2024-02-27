@@ -29,12 +29,33 @@ import {
   processOrder,
   removeFromDatabaseCart,
 } from "./utilities/databaseManager";
-
-// import DryCleaning  from "./components/Services/DryCleaning";
+import allProductItem from "./components/fakeData/allProductItem";
 
 export const DataContext = createContext();
-
 const App = () => {
+  const [cart, setCart] = useState([]);
+  const [order, setOrder] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [preLoaderVisibility, setPreLoaderVisibility] = useState(true);
+
+  // import DryCleaning  from "./components/Services/DryCleaning";
+  useEffect(() => {
+    // fetch("https://smart-dhopa-server.herokuapp.com/allOrders")
+    //   .then((res) => res.json())
+    //   .then((data) => setOrder(data));
+    const data = allProductItem;
+    setOrder(data);
+  }, [order.length]);
+
+  useEffect(() => {
+    // fetch("https://smart-dhopa-server.herokuapp.com/products")
+    //   .then((res) => res.json())
+    //   .then((data) => setProducts(data));
+    const data = allProductItem;
+    setProducts(data);
+    setPreLoaderVisibility(false);
+  }, [products.length]);
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -57,10 +78,6 @@ const App = () => {
       element: <SignUpForm />,
     },
   ]);
-  const [cart, setCart] = useState([]);
-  const [order, setOrder] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [preLoaderVisibility, setPreLoaderVisibility] = useState(true);
 
   // useEffect(() => {
   //   fetch("https://smart-dhopa-server.herokuapp.com/allOrders")

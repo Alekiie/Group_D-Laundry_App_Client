@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Col, Container, FormGroup, Input, Label, Row } from 'reactstrap';
-import { useAuth } from '../Authentication/useAuth';
+import { useAuth } from '../Authentication/UseAuth';
 import Cart from './Cart';
 import './Cart.css';
 
@@ -25,7 +25,7 @@ const Bag = (props) => {
 		window.scrollTo(0, 0);
 	}, []);
 	
-	const classes = styles();
+	const classes = styles;
 
 	const [ success, setSuccess ] = useState(false);
 
@@ -41,11 +41,13 @@ const Bag = (props) => {
 		newUserInfo[e.target.name] = e.target.value;
 
 		if(newUserInfo.fullName === null){
-			newUserInfo.fullName = auth.user.displayName;
+			// newUserInfo.fullName = auth.user.displayName;
+			newUserInfo.fullName ="Alex";
 		}
 
 		if(newUserInfo.email === null){
-			newUserInfo.email = auth.user.email;
+			// newUserInfo.email = auth.user.email;
+			newUserInfo.email = "dummyemail@gmail.com";
 		}
 
 		props.deliveryDetailsHandler(newUserInfo);
@@ -108,14 +110,15 @@ const Bag = (props) => {
 								</div>
 
 								<FormGroup>
-									<input
-										name="fullName"
-										className="form-control my-3"
-										ref={register({ required: true })}
-										defaultValue={fullName ||  auth.user.displayName}
-										onBlur={handleBlur}
-										placeholder="Full Name"
-									/>
+								<input
+    name="fullName"
+    className="form-control my-3"
+    ref={(e) => register(e, { required: true })}
+    defaultValue={fullName ||  auth.user.displayName}
+    onBlur={handleBlur}
+    placeholder="Full Name"
+/>
+
 									{errors.fullName  && <span className="errorMessage">Name is required</span>}
 								</FormGroup>
 

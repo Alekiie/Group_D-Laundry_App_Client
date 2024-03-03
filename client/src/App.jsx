@@ -1,19 +1,18 @@
 import React, { useState, useEffect, createContext } from "react";
 import NavBar from "./pages/navbar/NavBar";
 import "./App.css";
-// import SignUpForm from './components/Account/SignUpForm'
+// import Account from './components/Account/Account'
 import {
-  BrowserRouter,
-  createBrowserRouter,
+  BrowserRouter as Router,
   Route,
-  RouterProvider,
   Routes,
+  Navigate,
 } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Services from "./pages/services/Services";
 import DashBoard from "./pages/dashboard/DashBoard";
 import Contact from "./pages/contact/Contact";
-import SignUpForm from "./components/account/SignUpForm";
+import Account from "./components/account/Account";
 import Footer from "./components/footer/Footer";
 import WashAndIron from "./components/Services/WashAndIron";
 import WashAndFold from "./components/Services/WashAndFold";
@@ -22,7 +21,10 @@ import EmergencyService from "./components/Services/EmergencyService";
 import OrderAndProcess from "./components/Services/OrderAndProcess";
 import SubscriptionBased from "./components/Services/SubscriptionBased";
 import DryCleaning from "./components/Services/DryCleaning";
+import Login from "./components/Authentication/Login";
 import Bag from "./components/CartAndShipment/Bag";
+import Register from "./components/Authentication/register/Register";
+import { PrivateRoute } from "./components/Authentication/UseAuth";
 import {
   addToDatabaseCart,
   getDatabaseCart,
@@ -38,59 +40,30 @@ const App = () => {
   const [products, setProducts] = useState([]);
   const [preLoaderVisibility, setPreLoaderVisibility] = useState(true);
 
-  // import DryCleaning  from "./components/Services/DryCleaning";
   useEffect(() => {
-    // fetch("https://smart-dhopa-server.herokuapp.com/allOrders")
+    // fetch("http://localhost:8080/orders")
     //   .then((res) => res.json())
-    //   .then((data) => setOrder(data));
+    //   .then((data) => {
+    //     console.log(data);
+    //     setOrder(data);
+    //   });
     const data = allProductItem;
     setOrder(data);
   }, [order.length]);
 
   useEffect(() => {
-    // fetch("https://smart-dhopa-server.herokuapp.com/products")
+    // fetch("http://localhost:8080/products")
     //   .then((res) => res.json())
-    //   .then((data) => setProducts(data));
+    //   .then((data) => {
+    //     {
+    //       console.log(data);
+    //       setProducts(data);
+    //     }
+    //   });
     const data = allProductItem;
     setProducts(data);
     setPreLoaderVisibility(false);
   }, [products.length]);
-
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Home />,
-    },
-    {
-      path: "/services",
-      element: <Services />,
-    },
-    {
-      path: "/",
-      element: <DashBoard />,
-    },
-    {
-      path: "/",
-      element: <Contact />,
-    },
-    {
-      path: "/account",
-      element: <SignUpForm />,
-    },
-  ]);
-
-  // useEffect(() => {
-  //   fetch("https://smart-dhopa-server.herokuapp.com/allOrders")
-  //     .then((res) => res.json())
-  //     .then((data) => setOrder(data));
-  // }, [order.length]);
-
-  // useEffect(() => {
-  //   fetch("https://smart-dhopa-server.herokuapp.com/products")
-  //     .then((res) => res.json())
-  //     .then((data) => setProducts(data));
-  //   setPreLoaderVisibility(false);
-  // }, [products.length]);
 
   const contextData = { order, setOrder, products, setProducts };
 
@@ -182,11 +155,7 @@ const App = () => {
   };
   return (
     <DataContext.Provider value={contextData}>
-      <BrowserRouter>
-        {/* <NavBar /> */}
-        {/* <SignUpForm/> */}
-
-        {/* <RouterProvider router={router} /> */}
+      <Router>
         <div>
           <NavBar />
 
@@ -195,7 +164,9 @@ const App = () => {
             <Route path="/services" element={<Services />} />
             <Route path="/dashboard" element={<DashBoard />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/account" element={<SignUpForm />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
             <Route
               exact
               path="/wash-and-iron"
@@ -269,8 +240,22 @@ const App = () => {
             />{" "}
             {/* <Footer /> */}
             {/* <Header cart={cart} /> */}
+            {/* <PrivateRoute
+              
+              path="/cart-and-shipment"
+              element={
+                <Bag
+                  cart={cart}
+                  handleAddProduct={handleAddProduct}
+                  handleRemoveProduct={handleRemoveProduct}
+                  deliveryDetails={deliveryDetails}
+                  deliveryDetailsHandler={deliveryDetailsHandler}
+                  clearCart={clearCart}
+                  clearDeliveryDetails={clearDeliveryDetails}
+                />
+              }
+            ></PrivateRoute> */}
             <Route
-              exact
               path="/cart-and-shipment"
               element={
                 <Bag
@@ -288,7 +273,7 @@ const App = () => {
           </Routes>
           <Footer />
         </div>
-      </BrowserRouter>
+      </Router>
     </DataContext.Provider>
   );
 };

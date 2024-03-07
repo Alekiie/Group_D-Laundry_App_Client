@@ -24,7 +24,10 @@ import DryCleaning from "./components/Services/DryCleaning";
 import Login from "./components/Authentication/Login";
 import Bag from "./components/CartAndShipment/Bag";
 import Register from "./components/Authentication/register/Register";
-import { PrivateRoute } from "./components/Authentication/UseAuth";
+import {
+  AuthProvider,
+  PrivateRoute,
+} from "./components/Authentication/UseAuth";
 import {
   addToDatabaseCart,
   getDatabaseCart,
@@ -154,93 +157,94 @@ const App = () => {
     });
   };
   return (
-    <DataContext.Provider value={contextData}>
-      <Router>
-        <div>
-          <NavBar />
+    <AuthProvider>
+      <DataContext.Provider value={contextData}>
+        <Router>
+          <div>
+            <NavBar />
 
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/dashboard" element={<DashBoard />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/account" element={<Account />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route
-              exact
-              path="/wash-and-iron"
-              element={
-                <WashAndIron
-                  cart={cart}
-                  handleAddProduct={handleAddProduct}
-                  handleRemoveProduct={handleRemoveProduct}
-                />
-              }
-            />
-            {/* <Header cart={cart} /> */}
-            <Route
-              exact
-              path="/wash-and-fold"
-              element={
-                <WashAndFold
-                  cart={cart}
-                  handleAddProduct={handleAddProduct}
-                  handleRemoveProduct={handleRemoveProduct}
-                />
-              }
-            />
-            {/* <Header cart={cart} /> */}
-            <Route
-              exact
-              path="/iron-and-fold"
-              element={
-                <IronAndFold
-                  cart={cart}
-                  handleAddProduct={handleAddProduct}
-                  handleRemoveProduct={handleRemoveProduct}
-                />
-              }
-            />
-            {/* <Header cart={cart} /> */}
-            <Route
-              exact
-              path="/dry-cleaning"
-              element={
-                <DryCleaning
-                  cart={cart}
-                  handleAddProduct={handleAddProduct}
-                  handleRemoveProduct={handleRemoveProduct}
-                />
-              }
-            />
-            {/* <Header cart={cart} /> */}
-            <Route
-              exact
-              path="/subscription-based"
-              element={
-                <SubscriptionBased
-                  cart={cart}
-                  handleAddProduct={handleAddProduct}
-                  handleRemoveProduct={handleRemoveProduct}
-                />
-              }
-            />
-            {/* <Header cart={cart} /> */}
-            <Route
-              exact
-              path="/emergency-service"
-              element={
-                <EmergencyService
-                  cart={cart}
-                  handleAddProduct={handleAddProduct}
-                  handleRemoveProduct={handleRemoveProduct}
-                />
-              }
-            />{" "}
-            {/* <Footer /> */}
-            {/* <Header cart={cart} /> */}
-            {/* <PrivateRoute
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/dashboard" element={<DashBoard />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/account" element={<Account />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route
+                exact
+                path="/wash-and-iron"
+                element={
+                  <WashAndIron
+                    cart={cart}
+                    handleAddProduct={handleAddProduct}
+                    handleRemoveProduct={handleRemoveProduct}
+                  />
+                }
+              />
+              {/* <Header cart={cart} /> */}
+              <Route
+                exact
+                path="/wash-and-fold"
+                element={
+                  <WashAndFold
+                    cart={cart}
+                    handleAddProduct={handleAddProduct}
+                    handleRemoveProduct={handleRemoveProduct}
+                  />
+                }
+              />
+              {/* <Header cart={cart} /> */}
+              <Route
+                exact
+                path="/iron-and-fold"
+                element={
+                  <IronAndFold
+                    cart={cart}
+                    handleAddProduct={handleAddProduct}
+                    handleRemoveProduct={handleRemoveProduct}
+                  />
+                }
+              />
+              {/* <Header cart={cart} /> */}
+              <Route
+                exact
+                path="/dry-cleaning"
+                element={
+                  <DryCleaning
+                    cart={cart}
+                    handleAddProduct={handleAddProduct}
+                    handleRemoveProduct={handleRemoveProduct}
+                  />
+                }
+              />
+              {/* <Header cart={cart} /> */}
+              <Route
+                exact
+                path="/subscription-based"
+                element={
+                  <SubscriptionBased
+                    cart={cart}
+                    handleAddProduct={handleAddProduct}
+                    handleRemoveProduct={handleRemoveProduct}
+                  />
+                }
+              />
+              {/* <Header cart={cart} /> */}
+              <Route
+                exact
+                path="/emergency-service"
+                element={
+                  <EmergencyService
+                    cart={cart}
+                    handleAddProduct={handleAddProduct}
+                    handleRemoveProduct={handleRemoveProduct}
+                  />
+                }
+              />{" "}
+              {/* <Footer /> */}
+              {/* <Header cart={cart} /> */}
+              <PrivateRoute
               
               path="/cart-and-shipment"
               element={
@@ -254,27 +258,28 @@ const App = () => {
                   clearDeliveryDetails={clearDeliveryDetails}
                 />
               }
-            ></PrivateRoute> */}
-            <Route
-              path="/cart-and-shipment"
-              element={
-                <Bag
-                  cart={cart}
-                  handleAddProduct={handleAddProduct}
-                  handleRemoveProduct={handleRemoveProduct}
-                  deliveryDetails={deliveryDetails}
-                  deliveryDetailsHandler={deliveryDetailsHandler}
-                  clearCart={clearCart}
-                  clearDeliveryDetails={clearDeliveryDetails}
-                />
-              }
             />
-            {/* <Footer /> */}
-          </Routes>
-          <Footer />
-        </div>
-      </Router>
-    </DataContext.Provider>
+              {/* <Route
+                path="/cart-and-shipment"
+                element={
+                  <Bag
+                    cart={cart}
+                    handleAddProduct={handleAddProduct}
+                    handleRemoveProduct={handleRemoveProduct}
+                    deliveryDetails={deliveryDetails}
+                    deliveryDetailsHandler={deliveryDetailsHandler}
+                    clearCart={clearCart}
+                    clearDeliveryDetails={clearDeliveryDetails}
+                  />
+                }
+              /> */}
+              {/* <Footer /> */}
+            </Routes>
+            <Footer />
+          </div>
+        </Router>
+      </DataContext.Provider>
+    </AuthProvider>
   );
 };
 

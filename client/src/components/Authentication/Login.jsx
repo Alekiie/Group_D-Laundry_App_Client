@@ -13,17 +13,23 @@ import loginPic from "../images/auth/log.svg";
 import registerPic from "../images/auth/register.svg";
 import "./Login.css";
 import { useAuth } from "./UseAuth";
+import { useNavigate } from "react-router-dom";
+import { Alert } from "reactstrap";
 
 const Login = () => {
-  const [toggled, setToggled] = useState(false);
-  const buttonClass = toggled ? "containerz sign-up-mode" : "containerz";
+  const navigate = useNavigate();
+  const { register, handleSubmit } = useForm();
+  // const { ref, name } = register("email");
 
+  const [toggled, setToggled] = useState(false);
+  const [visible, setVisible] = useState(true);
+  const onDismiss = () => setVisible(false);
+
+  const buttonClass = toggled ? "containerz sign-up-mode" : "containerz";
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
-
-  const { register, handleSubmit, watch, errors } = useForm();
 
   const auth = useAuth();
 
@@ -33,35 +39,48 @@ const Login = () => {
     setUser(newUserInfo);
   };
 
+  const onSubmitNew = (data) => {
+    if (user.email && user.name && user.password) {
+      auth.signUp(user.name, user.email, user.password);
+    } else {
+      console.log("error");
+    }
+  };
+  
   const onSubmitOld = (data) => {
     if (user.email && user.password) {
       auth.signIn(user.email, user.password);
+      
     }
-    data.preventDefault();
-  };
 
-  const onSubmitNew = (data) => {
-    if (data.name && data.email && data.password && data.confirm_password) {
-      auth.signUp(data.email, data.confirm_password, data.name);
-    }
+    // data.preventDefault();
+    // console.log(data)
   };
+  //custom check
+  // console.log(auth.signUp.response);
 
   return (
     <section id="Amazing-Login-Page">
       <div className={buttonClass}>
         <div className="forms-containerz">
           <div className="signin-signup">
-            <form onSubmit={onSubmitOld} className="sign-in-form">
+            <form onSubmit={handleSubmit(onSubmitOld)} className="sign-in-form">
               <h2 className="title">Sign in</h2>
-              {/* {auth.user != null && (
+              {auth.user != null && (
                 <p className="text-danger">{auth.user.error}</p>
-              )} */}
+              )}
 
               <div className="input-field">
                 <FontAwesomeIcon icon={faEnvelope} className="input-fieldi" />
+
                 <input
                   name="email"
-                //   ref={register({ required: true })}
+                  // {...register("email", {
+                  //   required: {
+                  //     value: true,
+                  //     message: "Email cannot be null",
+                  //   },
+                  // })}
                   onBlur={handleBlur}
                   placeholder="Email"
                 />
@@ -73,7 +92,7 @@ const Login = () => {
                 <input
                   type="password"
                   name="password"
-                //   ref={register({ required: true })}
+                  //   ref={()=>register({ required: true })}
                   onBlur={handleBlur}
                   placeholder="Password"
                 />
@@ -88,46 +107,46 @@ const Login = () => {
 
               <p
                 className="forget-text"
-                onClick={() => (console.log("Forgot password?"))}
+                onClick={() => console.log("Forgot password?")}
               >
                 Forgot your password?
               </p>
 
               <p className="social-text">Or Sign in with social platforms</p>
               <div className="social-media">
-                <button className="social-icon" >
+                <button className="social-icon">
                   <img src={google} width="25px" />
                   <span className="mx-2">Sign in with Google</span>
                 </button>
-                <button
-                  className="social-icon"
-                
-                >
+                <button className="social-icon">
                   <img src={facebook} width="27px" />
                   <span className="mx-2">Sign in with Facebook </span>
                 </button>
               </div>
             </form>
 
-            <form onSubmit={handleSubmit(onSubmitNew)} className="sign-up-form">
+            <form className="sign-up-form" onSubmit={handleSubmit(onSubmitNew)}>
               <h2 className="title">Sign up</h2>
-              {/* {auth.user != null && (
+              {auth.user != null && (
                 <p className="text-danger">{auth.user.error}</p>
-              )} */}
+              )}
 
               <div className="input-field">
                 <FontAwesomeIcon icon={faUser} className="input-fieldi" />
                 <input
                   name="name"
-                //   ref={register({
-                //     required: "Name is required",
-                //     pattern: {
-                //       value: /^(?=^.{6,20}$)^[a-zA-Z-]+\s[a-zA-Z-]+$/i,
-                //       message:
-                //         "Name must be 6 - 20 characters & Minimum 2 words",
-                //     },
-                //   })}
+                  // ref={() =>
+                  //   register({
+                  //     required: "Name is required",
+                  //     pattern: {
+                  //       value: /^(?=^.{6,20}$)^[a-zA-Z-]+\s[a-zA-Z-]+$/i,
+                  //       message:
+                  //         "Name must be 6 - 20 characters & Minimum 2 words",
+                  //     },
+                  //   })
+                  // }
                   placeholder="Name"
+                  onBlur={handleBlur}
                 />
               </div>
               <span className="error">
@@ -138,14 +157,17 @@ const Login = () => {
                 <FontAwesomeIcon icon={faEnvelope} className="input-fieldi" />
                 <input
                   name="email"
-                //   ref={register({
-                //     required: "Email is required",
-                //     pattern: {
-                //       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                //       message: "Invalid email address",
-                //     },
-                //   })}
+                  // ref={() =>
+                  //   register({
+                  //     required: "Email is required",
+                  //     pattern: {
+                  //       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                  //       message: "Invalid email address",
+                  //     },
+                  //   })
+                  // }
                   placeholder="Email"
+                  onBlur={handleBlur}
                 />
               </div>
               <span className="error">
@@ -157,16 +179,17 @@ const Login = () => {
                 <input
                   type="password"
                   name="password"
-                //   ref={register({
-                //     required: "Password is required",
-                //     pattern: {
-                //       value:
-                //         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&;:])[A-Za-z\d@$!%*#?&;:]{8,}$/i,
-                //       message:
-                //         "Minimum eight characters, at least one letter, one number and one special character",
-                //     },
-                //   })}
+                  // ref={()=>register({
+                  //   required: "Password is required",
+                  //   pattern: {
+                  //     value:
+                  //       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&;:])[A-Za-z\d@$!%*#?&;:]{8,}$/i,
+                  //     message:
+                  //       "Minimum eight characters, at least one letter, one number and one special character",
+                  //   },
+                  // })}
                   placeholder="Password"
+                  onBlur={handleBlur}
                 />
               </div>
               <span className="error">
@@ -178,9 +201,9 @@ const Login = () => {
                 <input
                   type="password"
                   name="confirm_password"
-                //   ref={register({
-                //     validate: (value) => value === watch("password"),
-                //   })}
+                  // ref={()=>register({
+                  //   validate: (value) => value === watch("password"),
+                  // })}
                   placeholder="Confirm Password"
                 />
               </div>

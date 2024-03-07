@@ -1,7 +1,12 @@
 import axios from "axios";
+// import firebase from 'firebase'
+// import {initializeAuth} from 'firebase/auth'
+import { initializeApp } from "firebase/app";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import firebaseConfig from "../../firebase.config";
 import { Navigate, Route } from "react-router-dom";
 
+initializeApp(firebaseConfig);
 const AuthContext = createContext();
 
 export const AuthProvider = (props) => {
@@ -14,23 +19,12 @@ export const AuthProvider = (props) => {
 export const useAuth = () => useContext(AuthContext);
 
 //***************** Navigate review item to signIn ************************
-export const PrivateRoute = ({ children, ...rest }) => {
+export const PrivateRoute = ({ element: Element, ...rest }) => {
   const auth = useAuth();
   return (
     <Route
       {...rest}
-      render={({ location }) =>
-        auth.user ? (
-          children
-        ) : (
-          <Navigate
-            to={{
-              pathname: "/login",
-              state: { from: location },
-            }}
-          />
-        )
-      }
+      element={auth.user ? <Element /> : <Navigate to="/login" replace />}
     />
   );
 };
@@ -95,6 +89,7 @@ const Auth = () => {
       const { token, user } = response.data; // Assuming your backend sends back a token upon successful authentication
       localStorage.setItem("token", token); // Store the token in local storage
       setUser(user);
+      console.log(user);
       window.history.back();
     } catch (error) {
       console.error("Error signing in:", error);
@@ -108,7 +103,23 @@ const Auth = () => {
     // Make a request to your backend to authenticate the admin user
   };
 
-  const signUp = async (email, password, name) => {
+  const verifyEmail = () => {
+    const auth = useAuth();
+    var user = firebase.auth().currentUser;
+
+    user
+      .sendEmailVerification()
+      .then(function () {
+        // Email sent.
+        console.log("email sent");
+      })
+      .catch(function (error) {
+        // An error happened.
+        console.log(error.message);
+      });
+  };
+
+  const signUp = async (name, email, password) => {
     // Make a request to your backend to register the user
     try {
       const response = await axios.post("http://localhost:8080/register", {
@@ -116,11 +127,17 @@ const Auth = () => {
         email,
         password,
       });
+
       const user = response.data;
       setUser(user);
-      console.log(user)
-      window.history.back();
-    } catch (error) {}
+      // console.log(user);
+      // window.history.back();
+      window.location.reload();
+      return user;
+    } catch (error) {
+      return error.message;
+      setUser(null);
+    }
   };
 
   const signOut = () => {
@@ -139,12 +156,4 @@ const Auth = () => {
   };
 };
 
-// Export all components and functions as default
-export default {
-  AuthProvider,
-  useAuth,
-  PrivateRoute,
-  PrivateAdminRoute,
-  getUser,
-  Auth,
-};
+export default Auth;

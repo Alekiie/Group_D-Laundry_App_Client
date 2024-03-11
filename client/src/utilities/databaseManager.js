@@ -12,7 +12,8 @@ const getUser = () => {
 
 const getDataKey = () => {
     const userId = getUser();
-    return `smartDhopa/carts/${userId}`
+    return `clz/carts/${userId}`
+    console.log(userId)
 }
 
 // push to local storage: a temporary place for database

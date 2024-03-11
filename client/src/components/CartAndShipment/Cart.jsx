@@ -8,8 +8,8 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, FormGroup, Input, Label } from 'reactstrap';
 import { DataContext } from '../../App';
-// import { processOrder } from '../../utilities/databaseManager';
-// import { useAuth } from '../Authentication/useAuth';
+import { processOrder } from '../../utilities/databaseManager';
+import { useAuth } from '../Authentication/UseAuth';
 import '../Services/Services.css';
 import './Cart.css';
 
@@ -32,7 +32,6 @@ const useCustomStylesHook = () => {
 
 const Cart = (props) => {
 	const classes = useCustomStylesHook();
-	// const auth = useAuth();
 	const ContextData = useContext(DataContext);
 
 	const removeItemFromCart = (currentItem) => {
@@ -87,7 +86,7 @@ const Cart = (props) => {
 	const handleFinalOrder = () => {
 		const shipment = props.deliveryDetails;
 		const products = props.cart;
-		// const email = auth.user.email;
+		const email = auth.user.email;
 
 		const subTotalCart = subTotal + '';
 		const deliveryChargeCart = deliveryCharge + '';
@@ -115,7 +114,7 @@ const Cart = (props) => {
 		// 		console.log(data);
 		// 	});
 
-		// processOrder();
+		processOrder();
 		props.clearCart();
 		props.clearDeliveryDetails();
 	};

@@ -6,6 +6,7 @@ import { Col, Container, FormGroup, Input, Label, Row } from "reactstrap";
 import { useAuth } from "../Authentication/UseAuth";
 import Cart from "./Cart";
 import "./Cart.css";
+import axios from "axios";
 
 const styles = {
   textField: {
@@ -15,17 +16,14 @@ const styles = {
     marginBottom: "3rem", // Using a fixed unit instead of theme.spacing(3)
     marginTop: "3rem", // Using a fixed unit instead of theme.spacing(3)
     // color: "white", // Text color set to white
-    border:'2px solid white',
-    gap:'10px'
-
-
-   
+    border: "2px solid white",
+    gap: "10px",
   },
 };
 
 const Bag = (props) => {
   const auth = useAuth();
-  console.log(props);
+  // console.log(props);
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -52,18 +50,38 @@ const Bag = (props) => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    setSuccess(true);
+  const postData = props.cart.map((item) => ({
+    customerEmail: auth.user.email,
+    service: item.service,
+    category: item.category,
+    name: item.name,
+    quantity: item.quantity,
+    price: item.price,
+  }));
+  const onSubmit = async (data) => {
+    try {
+      await axios.post("http://localhost:8080/orders", postData);
+      console.log("Order Placed Successfully...")
+      setSuccess(true);
+    } catch (error) {
+      console.log("Error Making order" + error);
+    }
   };
+  // if (success) {
+  //   // console.log(success);
+  //   // console.log(props.cart);
+  //   // console.log(auth.user.name);
+  //   // console.log(props.deliveryDetails);
+  // }
 
   const handleBlur = (e) => {
     const newUserInfo = { ...props.deliveryDetails };
     newUserInfo[e.target.name] = e.target.value;
 
     if (newUserInfo.fullName === null) {
-      newUserInfo.fullName = auth.user.displayName;
+      newUserInfo.fullName = auth.user.name;
     }
-    console.log(newUserInfo);
+    // console.log(newUserInfo);
     if (newUserInfo.email === null) {
       newUserInfo.email = auth.user.email;
       // newUserInfo.email = "dummyemail@gmail.com";
@@ -102,18 +120,15 @@ const Bag = (props) => {
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,
-                    style:{
-                      color:'green',
-                      
-                    }
+                    style: {
+                      color: "green",
+                    },
                   }}
                   InputProps={{
                     style: {
-                        color: "white"
-                    }
-                }}
-                
-                
+                      color: "white",
+                    },
+                  }}
                 />
 
                 <TextField
@@ -123,15 +138,12 @@ const Bag = (props) => {
                   type="time"
                   defaultValue={getTime}
                   onBlur={handleBlur}
-                  
-                  
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,
-                    style:{
-                      color:'green',
-                      
-                    }
+                    style: {
+                      color: "green",
+                    },
                   }}
                   inputProps={{
                     step: 300, // 5 min

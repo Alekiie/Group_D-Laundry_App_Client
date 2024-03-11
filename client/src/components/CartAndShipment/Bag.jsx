@@ -14,6 +14,12 @@ const styles = {
     width: "200px", // Using a fixed width
     marginBottom: "3rem", // Using a fixed unit instead of theme.spacing(3)
     marginTop: "3rem", // Using a fixed unit instead of theme.spacing(3)
+    // color: "white", // Text color set to white
+    border:'2px solid white',
+    gap:'10px'
+
+
+   
   },
 };
 
@@ -40,7 +46,11 @@ const Bag = (props) => {
     getTime,
   } = props.deliveryDetails;
 
-  const { register, handleSubmit, errors } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const onSubmit = (data) => {
     setSuccess(true);
@@ -74,7 +84,7 @@ const Bag = (props) => {
               <form onSubmit={handleSubmit(onSubmit)} className="py-2">
                 <div>
                   <h5 className="text-danger">
-                    <i className="now-ui-icons shopping_delivery-fast mr-2" />
+                    <i className="now-ui-icons shopping_delivery-fast mr-2 " />
                     Schedule
                   </h5>
                   <span className="from-text">
@@ -92,7 +102,18 @@ const Bag = (props) => {
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,
+                    style:{
+                      color:'green',
+                      
+                    }
                   }}
+                  InputProps={{
+                    style: {
+                        color: "white"
+                    }
+                }}
+                
+                
                 />
 
                 <TextField
@@ -102,9 +123,15 @@ const Bag = (props) => {
                   type="time"
                   defaultValue={getTime}
                   onBlur={handleBlur}
+                  
+                  
                   className={classes.textField}
                   InputLabelProps={{
                     shrink: true,
+                    style:{
+                      color:'green',
+                      
+                    }
                   }}
                   inputProps={{
                     step: 300, // 5 min
@@ -121,50 +148,50 @@ const Bag = (props) => {
                   </span>
                 </div>
 
-                {/* <FormGroup>
+                <FormGroup>
                   <input
                     name="fullName"
                     className="form-control my-3"
-                    ref={(e) => register(e, { required: true })}
-                    defaultValue={fullName || auth.user.displayName}
+                    // ref={(e) => register(e, { required: true })}
+                    defaultValue={fullName || auth.user.name}
                     onBlur={handleBlur}
                     placeholder="Full Name"
                   />
 
-                  {errors.fullName && (
+                  {/* {errors.fullName && (
                     <span className="errorMessage">Name is required</span>
-                  )}
-                </FormGroup> */}
+                  )} */}
+                </FormGroup>
 
-                {/* <FormGroup>
+                <FormGroup>
                   <input
                     name="email"
                     className="form-control my-3"
-                    ref={register({ required: true })}
+                    // ref={register({ required: true })}
                     defaultValue={email || auth.user.email}
                     onBlur={handleBlur}
                     placeholder="Email"
                   />
-                  {errors.email && (
+                  {/* {errors.email && (
                     <span className="errorMessage">Email is required</span>
-                  )}
-                </FormGroup> */}
+                  )} */}
+                </FormGroup>
 
-                {/* <FormGroup>
+                <FormGroup>
                   <input
                     name="mobileNumber"
                     className="form-control my-3"
                     // ref={register({ required: true })}
-                    // defaultValue={mobileNumber}
+                    defaultValue={mobileNumber}
                     onBlur={handleBlur}
                     placeholder="Mobile Number"
                   />
-                  {errors.mobileNumber && (
+                  {/* {errors.mobileNumber && (
                     <span className="errorMessage">
                       Mobile Number is required
                     </span>
-                  )}
-                </FormGroup> */}
+                  )} */}
+                </FormGroup>
 
                 <div className="mt-4">
                   <h5 className="text-danger">

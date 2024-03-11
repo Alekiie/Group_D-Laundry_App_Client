@@ -18,8 +18,11 @@ import { Alert } from "reactstrap";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit } = useForm();
-  // const { ref, name } = register("email");
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
 
   const [toggled, setToggled] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -46,14 +49,13 @@ const Login = () => {
       console.log("error");
     }
   };
-  
+
   const onSubmitOld = (data) => {
     if (user.email && user.password) {
       auth.signIn(user.email, user.password);
-      
     }
 
-    // data.preventDefault();
+    data.preventDefault();
     // console.log(data)
   };
   //custom check
@@ -64,7 +66,7 @@ const Login = () => {
       <div className={buttonClass}>
         <div className="forms-containerz">
           <div className="signin-signup">
-            <form onSubmit={handleSubmit(onSubmitOld)} className="sign-in-form">
+            <form onSubmit={onSubmitOld} className="sign-in-form">
               <h2 className="title">Sign in</h2>
               {auth.user != null && (
                 <p className="text-danger">{auth.user.error}</p>
@@ -75,30 +77,33 @@ const Login = () => {
 
                 <input
                   name="email"
-                  // {...register("email", {
-                  //   required: {
-                  //     value: true,
-                  //     message: "Email cannot be null",
-                  //   },
-                  // })}
+                  // {...register("email", { required: true })}
+                  // aria-invalid={errors.email ? "true" : "false"}
                   onBlur={handleBlur}
                   placeholder="Email"
+               
                 />
               </div>
-              {/* {errors.email && <span className="error">Email is required</span>} */}
-
+              {errors.email?.type === "required" && (
+                <span className="error" role="alert">
+                  Email is required
+                </span>
+              )}
               <div className="input-field">
                 <FontAwesomeIcon icon={faLock} className="input-fieldi" />
                 <input
                   type="password"
                   name="password"
-                  //   ref={()=>register({ required: true })}
+                  // {...register("password", { required: true })}
+                  // aria-invalid={errors.password ? "true" : "false"}
                   onBlur={handleBlur}
                   placeholder="Password"
                 />
               </div>
-              {/* {errors.password && (
-                <span className="error">Password is required</span>
+              {/* {errors.password?.type === "required" && (
+                <span className="error" role="alert">
+                  Password is required
+                </span>
               )} */}
 
               <button className="btnz" type="submit">
@@ -135,43 +140,36 @@ const Login = () => {
                 <FontAwesomeIcon icon={faUser} className="input-fieldi" />
                 <input
                   name="name"
-                  // ref={() =>
-                  //   register({
-                  //     required: "Name is required",
-                  //     pattern: {
-                  //       value: /^(?=^.{6,20}$)^[a-zA-Z-]+\s[a-zA-Z-]+$/i,
-                  //       message:
-                  //         "Name must be 6 - 20 characters & Minimum 2 words",
-                  //     },
-                  //   })
-                  // }
+                  {...register("name", { required: true })}
+                  aria-invalid={errors.name ? "true" : "false"}
                   placeholder="Name"
                   onBlur={handleBlur}
                 />
               </div>
               <span className="error">
-                {/* {errors.name && errors.name.message} */}
+                {errors.name?.type === "required" && (
+                  <span className="error" role="alert">
+                    Name is required
+                  </span>
+                )}
               </span>
 
               <div className="input-field">
                 <FontAwesomeIcon icon={faEnvelope} className="input-fieldi" />
                 <input
                   name="email"
-                  // ref={() =>
-                  //   register({
-                  //     required: "Email is required",
-                  //     pattern: {
-                  //       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                  //       message: "Invalid email address",
-                  //     },
-                  //   })
-                  // }
+                  {...register("email", { required: true })}
+                  aria-invalid={errors.email ? "true" : "false"}
                   placeholder="Email"
                   onBlur={handleBlur}
                 />
               </div>
               <span className="error">
-                {/* {errors.email && errors.email.message} */}
+                {errors.email?.type === "required" && (
+                  <span role="alert" className="error">
+                    Email is required
+                  </span>
+                )}
               </span>
 
               <div className="input-field">
@@ -179,21 +177,18 @@ const Login = () => {
                 <input
                   type="password"
                   name="password"
-                  // ref={()=>register({
-                  //   required: "Password is required",
-                  //   pattern: {
-                  //     value:
-                  //       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&;:])[A-Za-z\d@$!%*#?&;:]{8,}$/i,
-                  //     message:
-                  //       "Minimum eight characters, at least one letter, one number and one special character",
-                  //   },
-                  // })}
+                  {...register("password", { required: true })}
+                  aria-invalid={errors.password ? "true" : "false"}
                   placeholder="Password"
                   onBlur={handleBlur}
                 />
               </div>
               <span className="error">
-                {/* {errors.password && errors.password.message} */}
+                {errors.password?.type === "required" && (
+                  <span role="alert" className="error">
+                    Password is required
+                  </span>
+                )}
               </span>
 
               <div className="input-field">
@@ -201,15 +196,18 @@ const Login = () => {
                 <input
                   type="password"
                   name="confirm_password"
-                  // ref={()=>register({
-                  //   validate: (value) => value === watch("password"),
-                  // })}
+                  {...register("confirm_password", { required: true })}
+                  aria-invalid={errors.confirm_password ? "true" : "false"}
                   placeholder="Confirm Password"
                 />
               </div>
-              {/* {errors.confirm_password && (
-                <span className="error">Passwords don't match.</span>
-              )} */}
+              <span className="error">
+                {errors.confirm_password?.type === "required" && (
+                  <span role="alert" className="error">
+                    Password is required
+                  </span>
+                )}
+              </span>
 
               <button className="btnz" type="submit">
                 Sign Up

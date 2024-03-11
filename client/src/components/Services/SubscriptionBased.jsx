@@ -32,20 +32,21 @@ import { Household,Man,Woman } from '../../assets/images';
 
 const useCustomStylesHook = () => {
 	return {
-		root: {
-			width: "100%",
-			backgroundColor: 'var(--background-paper)', // using CSS variables
-		  },
-		  heading: {
-			fontSize: '1.2rem', // using relative units
-			fontWeight: 'normal',
-		  },
-		  secondaryHeading: {
-			fontSize: '0.9375rem', // using relative units
-			color: 'var(--text-secondary)', // using CSS variables
-		  },
+	  root: {
+		width: "100%",
+		backgroundColor: 'var(--background-paper)', // using CSS variables
+	  },
+	  heading: {
+		fontSize: '1.2rem', // using relative units
+		fontWeight: 'normal',
+	  },
+	  secondaryHeading: {
+		fontSize: '0.9375rem', // using relative units
+		color: 'var(--text-secondary)', // using CSS variables
+	  },
 	};
   };
+  
 
 const SubscriptionBased = (props) => {
 	const classes = useCustomStylesHook();

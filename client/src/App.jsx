@@ -27,6 +27,7 @@ import Register from "./components/Authentication/register/Register";
 import {
   AuthProvider,
   PrivateRoute,
+  useAuth,
 } from "./components/Authentication/UseAuth";
 import {
   addToDatabaseCart,
@@ -42,6 +43,7 @@ const App = () => {
   const [order, setOrder] = useState([]);
   const [products, setProducts] = useState([]);
   const [preLoaderVisibility, setPreLoaderVisibility] = useState(true);
+  const auth = useAuth();
 
   useEffect(() => {
     // fetch("http://localhost:8080/orders")
@@ -166,7 +168,20 @@ const App = () => {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/services" element={<Services />} />
-              <Route path="/dashboard" element={<DashBoard />} />
+              {/* <Route
+                path="/bag"
+                element={
+                  <Bag
+                    cart={cart}
+                    handleAddProduct={handleAddProduct}
+                    handleRemoveProduct={handleRemoveProduct}
+                    deliveryDetails={deliveryDetails}
+                    deliveryDetailsHandler={deliveryDetailsHandler}
+                    clearCart={clearCart}
+                    clearDeliveryDetails={clearDeliveryDetails}
+                  />
+                }
+              /> */}
               <Route path="/contact" element={<Contact />} />
               <Route path="/account" element={<Account />} />
               <Route path="/register" element={<Register />} />
@@ -244,35 +259,23 @@ const App = () => {
               />{" "}
               {/* <Footer /> */}
               {/* <Header cart={cart} /> */}
-              <PrivateRoute
               
-              path="/cart-and-shipment"
-              element={
-                <Bag
-                  cart={cart}
-                  handleAddProduct={handleAddProduct}
-                  handleRemoveProduct={handleRemoveProduct}
-                  deliveryDetails={deliveryDetails}
-                  deliveryDetailsHandler={deliveryDetailsHandler}
-                  clearCart={clearCart}
-                  clearDeliveryDetails={clearDeliveryDetails}
-                />
-              }
-            />
-              {/* <Route
+              <Route
                 path="/cart-and-shipment"
                 element={
-                  <Bag
-                    cart={cart}
-                    handleAddProduct={handleAddProduct}
-                    handleRemoveProduct={handleRemoveProduct}
-                    deliveryDetails={deliveryDetails}
-                    deliveryDetailsHandler={deliveryDetailsHandler}
-                    clearCart={clearCart}
-                    clearDeliveryDetails={clearDeliveryDetails}
-                  />
+                  <PrivateRoute>
+                    <Bag
+                      cart={cart}
+                      handleAddProduct={handleAddProduct}
+                      handleRemoveProduct={handleRemoveProduct}
+                      deliveryDetails={deliveryDetails}
+                      deliveryDetailsHandler={deliveryDetailsHandler}
+                      clearCart={clearCart}
+                      clearDeliveryDetails={clearDeliveryDetails}
+                    />
+                  </PrivateRoute>
                 }
-              /> */}
+              />
               {/* <Footer /> */}
             </Routes>
             <Footer />

@@ -54,8 +54,7 @@
   margin: 0 1rem;
 }
 
-.navigation__navbar-menu_container button,
-.navigation__navbar-sign button {
+.navigation__navbar-menu_container button {
   background: #ff4820;
   border-radius: 5px;
   padding: 0.5rem 1rem;
@@ -128,4 +127,7 @@
   .navigation__navbar-menu_container-links-sign {
     display: block;
   }
+}
+.modal_email{
+  color: var(--color-footer);
 }

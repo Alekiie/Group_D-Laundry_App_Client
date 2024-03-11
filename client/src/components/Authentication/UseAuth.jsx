@@ -6,7 +6,6 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import firebaseConfig from "../../firebase.config";
 import { Navigate, Route } from "react-router-dom";
 
-initializeApp(firebaseConfig);
 const AuthContext = createContext();
 
 export const AuthProvider = (props) => {
@@ -19,14 +18,9 @@ export const AuthProvider = (props) => {
 export const useAuth = () => useContext(AuthContext);
 
 //***************** Navigate review item to signIn ************************
-export const PrivateRoute = ({ element: Element, ...rest }) => {
+export const PrivateRoute = ({  children }) => {
   const auth = useAuth();
-  return (
-    <Route
-      {...rest}
-      element={auth.user ? <Element /> : <Navigate to="/login" replace />}
-    />
-  );
+  return auth.user ? <>{children}</> : <Navigate to="/login" replace />;
 };
 
 export const PrivateAdminRoute = ({ children, ...rest }) => {
@@ -59,24 +53,28 @@ const Auth = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Check if user is already authenticated (e.g., token exists in local storage)
-    const token = localStorage.getItem("token");
-    if (token) {
-      // Make a request to your backend to verify the token and fetch user data
-      axios
-        .get("http://localhost:8080/login", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          setUser(response.data.user); // Assuming your backend sends back user data upon successful verification
-        })
-        .catch((error) => {
-          console.error("Error verifying token:", error);
+    // Function to check if the token is valid
+    const checkTokenValidity = async () => {
+      // Check if user is already authenticated (e.g., token exists in local storage)
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          // Make a request to  backend to verify the token and fetch user data
+          const response = await axios.get("http://localhost:8080/login", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          setUser(response.data.user); //if backend sends back user  upon successful verification
+        } catch (error) {
+          console.log("Error verifying token:", error);
           setUser(null);
-        });
-    }
+        }
+      }
+    };
+
+    // Call the function to check token validity
+    checkTokenValidity();
   }, []);
 
   const signIn = async (email, password) => {
@@ -89,7 +87,7 @@ const Auth = () => {
       const { token, user } = response.data; // Assuming your backend sends back a token upon successful authentication
       localStorage.setItem("token", token); // Store the token in local storage
       setUser(user);
-      console.log(user);
+      // console.log(user);
       window.history.back();
     } catch (error) {
       console.error("Error signing in:", error);
@@ -132,7 +130,7 @@ const Auth = () => {
       setUser(user);
       // console.log(user);
       // window.history.back();
-      window.location.reload();
+      window.location.back();
       return user;
     } catch (error) {
       return error.message;

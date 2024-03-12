@@ -59,13 +59,13 @@ const Bag = (props) => {
     price: item.price,
   }));
   const onSubmit = async (data) => {
-    try {
-      await axios.post("http://localhost:8080/orders", postData);
-      console.log("Order Placed Successfully...")
+    // try {
+    //   await axios.post("http://localhost:8080/orders", postData);
+    //   console.log("Order Placed Successfully...")
       setSuccess(true);
-    } catch (error) {
-      console.log("Error Making order" + error);
-    }
+    // } catch (error) {
+    //   console.log("Error Making order" + error);
+    // }
   };
   // if (success) {
   //   // console.log(success);

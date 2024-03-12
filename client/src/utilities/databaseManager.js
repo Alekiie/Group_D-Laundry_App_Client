@@ -12,8 +12,7 @@ const getUser = () => {
 
 const getDataKey = () => {
     const userId = getUser();
-    return `clz/carts/${userId}`
-    console.log(userId)
+    return `/cart/${userId}`
 }
 
 // push to local storage: a temporary place for database

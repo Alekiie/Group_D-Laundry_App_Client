@@ -89,20 +89,14 @@ const Cart = (props) => {
 
   const grandTotal = subTotal + deliveryCharge;
 
-  const postData = props.cart.map((item) => ({
-    customer: auth.user.name,
-    customerEmail: auth.user.email,
-    service: item.service,
-    category: item.category,
-    name: item.name,
-    quantity: item.quantity,
-    price: item.price,
-  }));
   // console.log(postData)
   // After Place order button is clicked, this function is worked
   const handleFinalOrder = async (data) => {
     try {
-      await axios.post("https://laundry-w1qp.onrender.com/orders", postData);
+      await axios.post(
+        "https://laundry-w1qp.onrender.com/orders",
+        props.postData
+      );
       console.log("Order Placed Successfully...");
       Swal.fire({
         position: "top-center",

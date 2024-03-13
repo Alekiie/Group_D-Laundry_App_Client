@@ -114,7 +114,10 @@ const NavBar = () => {
             <div className="navigation__navbar-menu_contaner-links">
               <Menu />
               <div className="navigation__navbar-menu_container-links-sign">
-                <button type="button">Sign Up</button>
+                <Link to="/login">
+                  <i className="now-ui-icons users_single-02" />
+                  <p className="">Login</p>
+                </Link>
               </div>
             </div>
           </div>
@@ -135,7 +138,9 @@ const NavBar = () => {
           </button>
         </div>
         <div className="modal-body">
-          <p className="modal_email">Verify your email for CLZ Online Laundry Web App</p>
+          <p className="modal_email">
+            Verify your email for CLZ Online Laundry Web App
+          </p>
         </div>
         <div className="modal-footer">
           <Button

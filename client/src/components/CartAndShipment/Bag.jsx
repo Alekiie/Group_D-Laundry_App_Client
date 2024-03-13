@@ -49,8 +49,8 @@ const Bag = (props) => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const postData = props.cart.map((item) => ({
+    customer: auth.user.name,
     customerEmail: auth.user.email,
     service: item.service,
     category: item.category,
@@ -62,7 +62,7 @@ const Bag = (props) => {
     // try {
     //   await axios.post("http://localhost:8080/orders", postData);
     //   console.log("Order Placed Successfully...")
-      setSuccess(true);
+    setSuccess(true);
     // } catch (error) {
     //   console.log("Error Making order" + error);
     // }
@@ -320,6 +320,7 @@ const Bag = (props) => {
               success={success}
               deliveryDetailsHandler={props.deliveryDetailsHandler}
               clearCart={props.clearCart}
+              postData={postData}
               clearDeliveryDetails={props.clearDeliveryDetails}
             />
           </Col>

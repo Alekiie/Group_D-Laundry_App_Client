@@ -17,7 +17,7 @@ const About = () => {
 				</Col>
 				<Col md={6}>
 					<p className="text-justify mb-5 about_text">
-						Smart Dhopa is the first Online Laundry Platform in DIU with the latest technology in washing,
+						CLz is the first Online Laundry Platform in DIU with the latest technology in washing,
 						dry cleaning and laundry. Our services combine our expertise and experience acquired over a
 						period of time to provide you with clean laundry in the shortest possible turnaround time. It
 						has partnered up with the top laundry experts of the country and provides you with a free

@@ -4,8 +4,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 // import { makeStyles } from '@mui/styles';
 import Typography from "@mui/material/Typography";
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 import { Button, FormGroup, Input, Label } from "reactstrap";
 import { DataContext } from "../../App";
 import { processOrder } from "../../utilities/databaseManager";
@@ -13,6 +13,9 @@ import { useAuth } from "../Authentication/UseAuth";
 import "../Services/Services.css";
 import "./Cart.css";
 import axios from "axios";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+const MySwal = withReactContent(Swal);
 
 const useCustomStylesHook = () => {
   return {
@@ -33,8 +36,10 @@ const useCustomStylesHook = () => {
 
 const Cart = (props) => {
   const auth = useAuth();
+  const { user, email } = useAuth();
   const classes = useCustomStylesHook();
   const ContextData = useContext(DataContext);
+  const [success, setSuccess] = useState(false);
 
   const removeItemFromCart = (currentItem) => {
     currentItem.dc = "d-none";
@@ -85,6 +90,7 @@ const Cart = (props) => {
   const grandTotal = subTotal + deliveryCharge;
 
   const postData = props.cart.map((item) => ({
+    customer: auth.user.name,
     customerEmail: auth.user.email,
     service: item.service,
     category: item.category,
@@ -92,16 +98,24 @@ const Cart = (props) => {
     quantity: item.quantity,
     price: item.price,
   }));
-
+  // console.log(postData)
   // After Place order button is clicked, this function is worked
   const handleFinalOrder = async (data) => {
     try {
       await axios.post("http://localhost:8080/orders", postData);
       console.log("Order Placed Successfully...");
-    //   setSuccess(true);
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "Order Placed",
+        showConfirmButton: false,
+        timer: 3000,
+      });
+      setSuccess(true);
       processOrder();
       props.clearCart();
       props.clearDeliveryDetails();
+      Navigate("/");
     } catch (error) {
       console.log("Error Making order" + error);
     }
@@ -138,130 +152,134 @@ const Cart = (props) => {
   };
 
   return (
-    <div className="cartClass" style={{ height: cartHeight }}>
-      <h4 className="text-danger d-flex justify-content-center m-2">
-        Your Bag
-      </h4>
-      <p className="d-flex justify-content-center m-1">
-        Total Item: {totalQuantity}
-      </p>
+    <>
+      <div className="cartClass" style={{ height: cartHeight }}>
+        <h4 className="text-danger d-flex justify-content-center m-2">
+          Your Bag
+        </h4>
+        <p className="d-flex justify-content-center m-1">
+          Total Item: {totalQuantity}
+        </p>
 
-      <List className={classes.root}>
-        {props.cart.map((item) => (
-          <div key={item.id}>
-            <Divider />
-            <ListItem>
-              <Typography
-                className={classes.dividerFullWidth}
-                color="white"
-                display="block"
-                variant="caption"
-              >
-                {item.category} - {item.service}
-              </Typography>
-              <ListItemText primary="" />
-              <div className="quantity-button">
-                {item.quantity > 1 ? (
+        <List className={classes.root}>
+          {props.cart.map((item) => (
+            <div key={item.id}>
+              <Divider />
+              <ListItem>
+                <Typography
+                  className={classes.dividerFullWidth}
+                  color="white"
+                  display="block"
+                  variant="caption"
+                >
+                  {item.category} - {item.service}
+                </Typography>
+                <ListItemText primary="" />
+                <div className="quantity-button">
+                  {item.quantity > 1 ? (
+                    <button
+                      onClick={() =>
+                        handleProductQuantity(item.id, item.quantity - 1)
+                      }
+                      className="btnQ"
+                    >
+                      -
+                    </button>
+                  ) : (
+                    <button
+                      className="btnQ"
+                      onClick={() => removeItemFromCart(item)}
+                    >
+                      -
+                    </button>
+                  )}
+                  <span className="quantity"> {item.quantity}</span>
                   <button
+                    className="btnQ"
                     onClick={() =>
-                      handleProductQuantity(item.id, item.quantity - 1)
+                      handleProductQuantity(item.id, item.quantity + 1)
                     }
-                    className="btnQ"
                   >
-                    -
+                    +
                   </button>
-                ) : (
-                  <button
-                    className="btnQ"
-                    onClick={() => removeItemFromCart(item)}
-                  >
-                    -
-                  </button>
-                )}
-                <span className="quantity"> {item.quantity}</span>
-                <button
-                  className="btnQ"
-                  onClick={() =>
-                    handleProductQuantity(item.id, item.quantity + 1)
-                  }
-                >
-                  +
-                </button>
-              </div>
-            </ListItem>
-            <ListItem>
-              <ListItemText primary={item.name} />
-              <ListItemText primary="" />
-              <Typography className={classes.secondaryHeading}>
-                <span className="price">Kes. {item.price * item.quantity}</span>
-              </Typography>
-            </ListItem>
-          </div>
-        ))}
-
-        <Divider />
-        <ListItem>
-          <ListItemText primary="Sub Total" />
-          <ListItemText primary="" />
-          <Typography className={classes.secondaryHeading}>
-            <span className="price">Kes. {subTotal}</span>
-          </Typography>
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="Delivery Charge" />
-          <ListItemText primary="" />
-          <Typography className={classes.secondaryHeading}>
-            <span className="price">Kes. {deliveryCharge}</span>
-          </Typography>
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="Grand Total" />
-          <ListItemText primary="" />
-          <Typography className={classes.secondaryHeading}>
-            <span className="price">Kes. {grandTotal}</span>
-          </Typography>
-        </ListItem>
-      </List>
-
-      {totalQuantity ? (
-        props.success ? (
-          <div className="">
-            <div className="d-flex justify-content-center">
-              <FormGroup check>
-                <Label check>
-                  <Input type="checkbox" defaultChecked />
-                  <span className="form-check-sign" />
-                  Agree with Terms and Conditions
-                </Label>
-              </FormGroup>
+                </div>
+              </ListItem>
+              <ListItem>
+                <ListItemText primary={item.name} />
+                <ListItemText primary="" />
+                <Typography className={classes.secondaryHeading}>
+                  <span className="price">
+                    Kes. {item.price * item.quantity}
+                  </span>
+                </Typography>
+              </ListItem>
             </div>
+          ))}
+
+          <Divider />
+          <ListItem>
+            <ListItemText primary="Sub Total" />
+            <ListItemText primary="" />
+            <Typography className={classes.secondaryHeading}>
+              <span className="price">Kes. {subTotal}</span>
+            </Typography>
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Delivery Charge" />
+            <ListItemText primary="" />
+            <Typography className={classes.secondaryHeading}>
+              <span className="price">Kes. {deliveryCharge}</span>
+            </Typography>
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Grand Total" />
+            <ListItemText primary="" />
+            <Typography className={classes.secondaryHeading}>
+              <span className="price">Kes. {grandTotal}</span>
+            </Typography>
+          </ListItem>
+        </List>
+
+        {totalQuantity ? (
+          props.success ? (
+            <div className="">
+              <div className="d-flex justify-content-center">
+                <FormGroup check>
+                  <Label check>
+                    <Input type="checkbox" defaultChecked />
+                    <span className="form-check-sign" />
+                    Agree with Terms and Conditions
+                  </Label>
+                </FormGroup>
+              </div>
+              <div className="d-flex justify-content-center">
+                <Link>
+                  <Button
+                    className="nav-name my-4"
+                    color="danger"
+                    onClick={handleFinalOrder}
+                  >
+                    <i className="now-ui-icons arrows-1_share-66" />
+                    <span className="ml-2">Place Your Order</span>
+                  </Button>
+                </Link>
+              </div>
+            </div>
+          ) : (
             <div className="d-flex justify-content-center">
-              <Link>
-                <Button
-                  className="nav-name my-4"
-                  color="danger"
-                  onClick={handleFinalOrder}
-                >
-                  <i className="now-ui-icons arrows-1_share-66" />
-                  <span className="ml-2">Place Your Order</span>
+              <Link to="/cart-and-shipment">
+                <Button className="nav-name my-4" color="danger">
+                  <i className="now-ui-icons shopping_bag-16" />
+                  <span className="ml-2">Check Out Your Order</span>
                 </Button>
               </Link>
             </div>
-          </div>
+          )
         ) : (
-          <div className="d-flex justify-content-center">
-            <Link to="/cart-and-shipment">
-              <Button className="nav-name my-4" color="danger">
-                <i className="now-ui-icons shopping_bag-16" />
-                <span className="ml-2">Check Out Your Order</span>
-              </Button>
-            </Link>
-          </div>
-        )
-      ) : (
-        <div />
-      )}
-    </div>
+          <div />
+        )}
+      </div>
+    </>
   );
 };
 

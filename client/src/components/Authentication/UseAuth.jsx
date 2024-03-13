@@ -60,7 +60,7 @@ const Auth = () => {
       if (token) {
         try {
           // Make a request to  backend to verify the token and fetch user data
-          const response = await axios.get("http://localhost:8080/login", {
+          const response = await axios.get("https://laundry-w1qp.onrender.com/login", {
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -80,7 +80,7 @@ const Auth = () => {
   const signIn = async (email, password) => {
     // Make a request to your backend to authenticate the user
     try {
-      const response = await axios.post("http://localhost:8080/login", {
+      const response = await axios.post("https://laundry-w1qp.onrender.com/login", {
         email,
         password,
       });
@@ -118,9 +118,9 @@ const Auth = () => {
   };
 
   const signUp = async (name, email, password) => {
-    // Make a request to your backend to register the user
+    // Make a request to backend to register the user
     try {
-      const response = await axios.post("http://localhost:8080/register", {
+      const response = await axios.post("https://laundry-w1qp.onrender.com/register", {
         name,
         email,
         password,

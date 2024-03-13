@@ -102,7 +102,7 @@ const Cart = (props) => {
   // After Place order button is clicked, this function is worked
   const handleFinalOrder = async (data) => {
     try {
-      await axios.post("http://localhost:8080/orders", postData);
+      await axios.post("https://laundry-w1qp.onrender.com/orders", postData);
       console.log("Order Placed Successfully...");
       Swal.fire({
         position: "top-center",
